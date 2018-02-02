@@ -24,7 +24,7 @@ class bsmnt {
   }
   // Run Analyze and Build
   run() {
-    // 
+    window.tableRaspisator = ReadyToGo(TCHRS, LSSNS);
   }
 }
 
@@ -41,7 +41,7 @@ class Group extends bsmnt {
     this.type = type;
   }
   get count() {
-    return Object.keys(this).length
+    return Object.keys(this).length - 2
   }
 }
 
@@ -49,13 +49,14 @@ class Group extends bsmnt {
 // Class Lesson
 class Lesson extends bsmnt {
   // Lesson as datakeeper
-  constructor(name, time) {
+  constructor(name, time, groupname) {
     super();
     this.type = "Lesson"
     let current = BC.lid++;
     this.id = current;
     this.name = name;
     this.time = time;
+    this.groupname = groupname;
     LSSNS[current] = this;
   }
 }
@@ -74,9 +75,9 @@ class Teacher extends bsmnt {
     TCHRS[current] = this;
   }
   // Keep new Lesson()
-  addLesson(name, pairCount) {
-    let time = pairCount * 120; // total pairs time in seconds
-    let lesson = new Lesson(name, time);
+  addLesson(name, groupname, pairCount) {
+    let time = pairCount; // total pairs time in seconds
+    let lesson = new Lesson(name, time, groupname);
     lesson.ownerId = this.id
     this.lessonsList.push(lesson.id);
     return lesson
@@ -90,8 +91,4 @@ class Teacher extends bsmnt {
 
 let TCHRS = new Group("TCHRS");
 let LSSNS = new Group("LSSNS");
-
-let Raspisanie = new Group("Расписание");
-Raspisanie.data = {};
-let d = Raspisanie.data;
     
