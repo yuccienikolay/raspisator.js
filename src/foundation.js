@@ -12,9 +12,42 @@ function ReadyToGo(T, L) {
 
         for (let nowtime = lookfor.time; nowtime > 0; nowtime--) {
             let gsize = Object.keys(gcoll).length + 1;
-            gcoll[gsize] = [lookfor.id, lookfor.ownerId];
+            gcoll[gsize] = {"id":lookfor.id, "td":lookfor.ownerId};
         }
     }
-    print(Raspisanie);
+
+    let newdata = {};
+    let keys = Object.keys(data);
+    let maxPairCount = 0;
+    for (let index = 0; index < keys.length; index++) {
+        let element = data[keys[index]];
+        let ov = {};
+        let paircount = Object.keys(element).length;
+        if (paircount > maxPairCount) {
+            maxPairCount = paircount;
+        }
+        for (let pos = 0; pos < paircount; pos++) {
+            ov[pos + 1] = element[pos + 1]["td"]
+        }
+        newdata[keys[index]] = ov;
+    }
+    Raspisanie.shortdata = newdata;
+
+    for (let index = 0; index < maxPairCount; index++) {
+        let pair = index + 1;
+        let usedTeachers = [];
+        for (let group = 0; group < keys.length; group++) {
+            let element = newdata[keys[group]];
+            let teacher = element[pair];
+            if (teacher) {
+                if (usedTeachers.includes(teacher)) {
+                    console.log("Препода нужно сдвинуть! {}".Format(teachers[teacher].name));
+                } else {
+                    usedTeachers.push(teacher);
+                }
+            }
+        }
+    }
+
     return Raspisanie;
 }
